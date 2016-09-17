@@ -38,5 +38,6 @@ ENV PHP_POST_MAX_SIZE 10M
 # Add volumes for MySQL 
 VOLUME  ["/etc/mysql", "/var/lib/mysql" ]
 
-EXPOSE 80 3306
+# 9k for xdebug
+EXPOSE 80 3306 9000
 CMD ["/run.sh"]
