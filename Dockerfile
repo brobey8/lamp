@@ -4,8 +4,14 @@ MAINTAINER Fernando Mayo <fernando@tutum.co>, Feng Honglin <hfeng@tutum.co>
 # Install packages
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && \
-  apt-get -y install supervisor git apache2 libapache2-mod-php5 mysql-server php5-mysql pwgen php-apc php5-mcrypt php5-curl && \
+  apt-get -y install supervisor git apache2 libapache2-mod-php5 mysql-server php5-mysql pwgen php-apc php5-mcrypt php5-curl install php5-dev && \
   echo "ServerName localhost" >> /etc/apache2/apache2.conf
+
+RUN yes | pecl install xdebug \
+    && echo "zend_extension=$(find /usr/ -name xdebug.so)" > /etc/php5/apache2/php.ini \
+    && echo "xdebug.remote_enable=on" >> /etc/php5/apache2/php.ini \
+    && echo "xdebug.remote_autostart=off" >> /etc/php5/apache2/php.ini
+
 
 # Add image configuration and scripts
 ADD start-apache2.sh /start-apache2.sh
